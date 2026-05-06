@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dopamine Forge 6.0 (Hyper-Detailed)</title>
+    <title>Dopamine Forge 7.4 (Bulletproof Assets)</title>
     <style>
         :root {
             --bg: #050508;
@@ -33,28 +33,35 @@
         .btn-danger:active { background: var(--danger); color: var(--bg); }
         .btn-spin { background: linear-gradient(45deg, #00e5ff, #b100ff); border: none; color: white; box-shadow: 0 0 20px rgba(177,0,255,0.4); }
         
-        /* HYPER DETAILED SVG AVATAR SYSTEM */
+        /* ЖЕСТКАЯ ФИКСАЦИЯ АВАТАРА */
         .avatar-container { display: flex; flex-direction: column; align-items: center; margin: 10px 0 20px 0; position: relative; }
-        .rpg-avatar { width: 240px; height: 240px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); transition: all 0.5s ease; }
-        .hologram-base { position: absolute; bottom: 10px; width: 140px; height: 20px; background: radial-gradient(ellipse at center, var(--primary) 0%, transparent 70%); opacity: 0.5; border-radius: 50%; filter: blur(5px); z-index: -1; transition: all 0.5s; }
         
-        /* Visibility Logic */
-        .svg-male, .svg-female, .svg-t1, .svg-t2, .svg-t3, .svg-t4, .svg-dead { display: none; }
+        .rpg-avatar-img { 
+            display: block !important;
+            width: 220px !important; 
+            height: 220px !important; 
+            min-width: 220px;
+            min-height: 220px;
+            border-radius: 50%; 
+            object-fit: cover; 
+            object-position: center;
+            border: 4px solid #333;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); 
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
+            z-index: 2;
+            background-color: transparent; 
+            margin: 0 auto;
+        }
         
-        .gender-male .svg-male { display: block; }
-        .gender-female .svg-female { display: block; }
+        .hologram-base { position: absolute; bottom: -5px; width: 140px; height: 20px; background: radial-gradient(ellipse at center, var(--primary) 0%, transparent 70%); opacity: 0.5; border-radius: 50%; filter: blur(5px); z-index: 1; transition: all 0.5s; }
         
-        .tier-1 .svg-t1 { display: block; }
-        .tier-2 .svg-t2 { display: block; }
-        .tier-3 .svg-t3 { display: block; }
-        .tier-4 .svg-t4 { display: block; }
+        /* Эффекты ауры для картинки в зависимости от уровня */
+        .tier-1 .rpg-avatar-img { border-color: #555; filter: grayscale(50%); }
+        .tier-2 .rpg-avatar-img { border-color: #00e5ff; box-shadow: 0 0 20px rgba(0,229,255,0.4); }
+        .tier-3 .rpg-avatar-img { border-color: #00ffaa; box-shadow: 0 0 30px rgba(0,255,170,0.5); animation: float 3s infinite; }
+        .tier-4 .rpg-avatar-img { border-color: #ffd700; box-shadow: 0 0 40px rgba(255,215,0,0.6), inset 0 0 20px rgba(255,215,0,0.3); animation: floatPulse 2s infinite; }
         
-        .tier-3 .rpg-avatar { filter: drop-shadow(0 0 25px rgba(0,255,100,0.4)); animation: float 3s infinite; }
-        .tier-4 .rpg-avatar { filter: drop-shadow(0 0 35px rgba(255,215,0,0.6)); animation: floatPulse 2s infinite; }
-        
-        .tier-dead .svg-male, .tier-dead .svg-female { display: none !important; }
-        .tier-dead .svg-dead { display: block; }
-        .tier-dead .rpg-avatar { filter: drop-shadow(0 0 25px rgba(255,0,85,0.8)); animation: glitch 0.3s infinite; }
+        .tier-dead .rpg-avatar-img { border-color: var(--danger); filter: grayscale(100%) sepia(100%) hue-rotate(300deg) contrast(150%); box-shadow: 0 0 30px rgba(255,0,85,0.8); animation: glitch 0.3s infinite; }
         .tier-dead .hologram-base { background: radial-gradient(ellipse at center, var(--danger) 0%, transparent 70%); }
 
         .speech-bubble { background: var(--surface); padding: 12px; border-radius: 12px; border-left: 4px solid var(--primary); margin-bottom: 15px; font-style: italic; width: 100%; text-align: center; font-size: 14px; min-height: 44px;}
@@ -80,8 +87,8 @@
         .dev-box { border: 1px dashed var(--danger); padding: 15px; border-radius: 8px; margin-top: 20px; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
-        @keyframes floatPulse { 0% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-10px) scale(1.03); } 100% { transform: translateY(0px) scale(1); } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes floatPulse { 0% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-12px) scale(1.03); } 100% { transform: translateY(0px) scale(1); } }
         @keyframes glitch { 0% { transform: translate(2px, 1px); } 20% { transform: translate(-2px, -1px); } 40% { transform: translate(1px, 2px); } 60% { transform: translate(-1px, -2px); } 80% { transform: translate(2px, -1px); } 100% { transform: translate(-2px, 1px); } }
     </style>
 </head>
@@ -92,7 +99,7 @@
     <div id="screen-init" class="screen">
         <h1 class="neon-text" style="margin-top: 40px;">ПРОФИЛИРОВАНИЕ</h1>
         <p style="text-align: center; color: #888; margin-bottom: 20px;">Определяем вектор адаптации.</p>
-        <p style="text-align: center; color: var(--danger); margin-bottom: 40px; font-size: 12px;">Внимание: Будет запрошен доступ к системным уведомлениям. Не блокируй его.</p>
+        <p style="text-align: center; color: var(--primary); margin-bottom: 40px; font-size: 12px;">Подтверди Push-уведомления для настройки нейронной связи с сервером.</p>
         <button class="btn" onclick="initProfile('male')">Мужской генотип (Рыцарь)</button>
         <button class="btn" onclick="initProfile('female')">Женский генотип (Принцесса)</button>
     </div>
@@ -102,195 +109,8 @@
         <div class="speech-bubble" id="avatar-speech">Загрузка нейроинтерфейса...</div>
         
         <div class="avatar-container" id="avatar-wrapper">
-            <!-- HYPER DETAILED SVG -->
-            <svg viewBox="0 0 100 100" class="rpg-avatar" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="skin" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#f5d0b5"/>
-                        <stop offset="100%" stop-color="#d6a27a"/>
-                    </linearGradient>
-                    <linearGradient id="muscle" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#e0ad84"/>
-                        <stop offset="50%" stop-color="#c88a5b"/>
-                        <stop offset="100%" stop-color="#a06030"/>
-                    </linearGradient>
-                    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#fff6a3"/>
-                        <stop offset="50%" stop-color="#f1c40f"/>
-                        <stop offset="100%" stop-color="#b86a00"/>
-                    </linearGradient>
-                    <linearGradient id="steel" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#ffffff"/>
-                        <stop offset="50%" stop-color="#95a5a6"/>
-                        <stop offset="100%" stop-color="#2c3e50"/>
-                    </linearGradient>
-                </defs>
-
-                <!-- МУЖСКОЙ ПРОФИЛЬ -->
-                <g class="svg-male">
-                    <!-- T1: Крестьянин (Худой) -->
-                    <g class="svg-t1">
-                        <path d="M35,50 Q50,45 65,50 L60,80 Q50,85 40,80 Z" fill="#795548" stroke="#3e2723" stroke-width="1.5" />
-                        <rect x="42" y="75" width="16" height="5" fill="#3e2723" />
-                        <circle cx="50" cy="32" r="14" fill="url(#skin)" />
-                        <!-- Глаза и волосы -->
-                        <path d="M43,30 Q45,28 47,30" stroke="#3e2723" stroke-width="1.5" fill="none"/>
-                        <path d="M53,30 Q55,28 57,30" stroke="#3e2723" stroke-width="1.5" fill="none"/>
-                        <circle cx="45" cy="32" r="1.5" fill="#3e2723" /> <circle cx="55" cy="32" r="1.5" fill="#3e2723" />
-                        <path d="M36,28 Q45,15 50,18 Q55,15 64,28 Q50,10 36,28 Z" fill="#3e2723" /> 
-                    </g>
-
-                    <!-- T2: Базовые мышцы и рельеф -->
-                    <g class="svg-t2">
-                        <!-- Торс с грудными и прессом -->
-                        <path d="M30,48 Q50,45 70,48 L62,80 Q50,85 38,80 Z" fill="url(#muscle)" />
-                        <path d="M32,50 Q50,65 68,50" stroke="#8a5a3a" stroke-width="2" fill="none" /> <!-- Грудные -->
-                        <line x1="50" y1="58" x2="50" y2="78" stroke="#8a5a3a" stroke-width="1.5" /> <!-- Линия пресса -->
-                        <line x1="44" y1="65" x2="56" y2="65" stroke="#8a5a3a" stroke-width="1.5" /> <!-- Кубики -->
-                        <line x1="45" y1="72" x2="55" y2="72" stroke="#8a5a3a" stroke-width="1.5" />
-                        <!-- Плечи (Дельты) -->
-                        <circle cx="30" cy="50" r="7" fill="url(#muscle)" />
-                        <circle cx="70" cy="50" r="7" fill="url(#muscle)" />
-                        <!-- Штаны бойца -->
-                        <path d="M38,78 L62,78 L65,95 L35,95 Z" fill="#1a1a1a" />
-                        <rect x="36" y="75" width="28" height="6" fill="#c0392b" /> <!-- Пояс -->
-                        <!-- Голова -->
-                        <circle cx="50" cy="30" r="14" fill="url(#skin)" />
-                        <rect x="30" y="22" width="40" height="6" fill="#c0392b" transform="rotate(-5 50 25)" /> <!-- Бандана -->
-                        <circle cx="45" cy="32" r="1.5" fill="#111" /> <circle cx="55" cy="32" r="1.5" fill="#111" />
-                        <path d="M42,38 Q50,42 58,38" stroke="#3e2723" stroke-width="1.5" fill="none"/> <!-- Улыбка -->
-                    </g>
-
-                    <!-- T3: Крестоносец (Объемная броня) -->
-                    <g class="svg-t3">
-                        <path d="M25,48 Q50,40 75,48 L68,80 Q50,88 32,80 Z" fill="url(#steel)" stroke="#2c3e50" stroke-width="2" />
-                        <!-- Рельеф кирасы -->
-                        <path d="M35,55 Q50,65 65,55" stroke="#7f8c8d" stroke-width="3" fill="none" />
-                        <rect x="46" y="55" width="8" height="20" fill="#c0392b" /> 
-                        <rect x="40" y="60" width="20" height="8" fill="#c0392b" />
-                        <!-- Наплечники -->
-                        <path d="M15,50 Q25,35 35,50 Z" fill="url(#steel)" stroke="#2c3e50" stroke-width="2"/>
-                        <path d="M85,50 Q75,35 65,50 Z" fill="url(#steel)" stroke="#2c3e50" stroke-width="2"/>
-                        <!-- Шлем -->
-                        <path d="M30,22 L70,22 L66,45 Q50,55 34,45 Z" fill="url(#steel)" stroke="#2c3e50" stroke-width="2" />
-                        <rect x="38" y="32" width="10" height="4" fill="#000" /> <rect x="52" y="32" width="10" height="4" fill="#000" />
-                        <rect x="48" y="22" width="4" height="22" fill="#000" />
-                        <!-- Огромная Гантель -->
-                        <rect x="18" y="30" width="8" height="60" fill="#2c3e50" />
-                        <rect x="10" y="30" width="24" height="15" rx="3" fill="url(#steel)" />
-                        <rect x="10" y="75" width="24" height="15" rx="3" fill="url(#steel)" />
-                    </g>
-
-                    <!-- T4: Эпик Паладин (Свечение и Золото) -->
-                    <g class="svg-t4">
-                        <path d="M20,45 Q50,30 80,45 L70,85 Q50,98 30,85 Z" fill="url(#gold)" stroke="#d35400" stroke-width="2" />
-                        <path d="M30,55 Q50,75 70,55" stroke="#f1c40f" stroke-width="4" fill="none" /> <!-- Рельеф золота -->
-                        <!-- Энерго-ядро -->
-                        <polygon points="50,60 40,75 50,90 60,75" fill="#00e5ff" filter="drop-shadow(0 0 5px #00e5ff)" />
-                        <!-- Монументальные наплечники -->
-                        <path d="M10,45 Q20,25 35,45 L20,60 Z" fill="url(#gold)" stroke="#d35400" stroke-width="2"/>
-                        <path d="M90,45 Q80,25 65,45 L80,60 Z" fill="url(#gold)" stroke="#d35400" stroke-width="2"/>
-                        <!-- Шлем Паладина -->
-                        <path d="M32,15 L68,15 L66,45 Q50,55 34,45 Z" fill="url(#gold)" stroke="#d35400" stroke-width="2" />
-                        <path d="M40,30 Q50,40 60,30" stroke="#00e5ff" stroke-width="4" fill="none" filter="drop-shadow(0 0 5px #00e5ff)" /> <!-- Глаза -->
-                        <path d="M50,15 Q65,-10 80,10" stroke="#c0392b" stroke-width="10" stroke-linecap="round" fill="none"/> <!-- Плюмаж -->
-                        <!-- Молот Богов -->
-                        <rect x="80" y="20" width="8" height="70" fill="#34495e" stroke="#00e5ff" stroke-width="1"/>
-                        <rect x="70" y="15" width="28" height="20" rx="4" fill="url(#steel)" stroke="#00e5ff" stroke-width="2" filter="drop-shadow(0 0 8px #00e5ff)" />
-                        <rect x="70" y="75" width="28" height="20" rx="4" fill="url(#steel)" stroke="#00e5ff" stroke-width="2" filter="drop-shadow(0 0 8px #00e5ff)" />
-                    </g>
-                </g>
-
-                <!-- ЖЕНСКИЙ ПРОФИЛЬ -->
-                <g class="svg-female">
-                    <!-- T1: Крестьянка -->
-                    <g class="svg-t1">
-                        <path d="M38,50 L62,50 L72,85 L28,85 Z" fill="#2980b9" />
-                        <path d="M42,50 L58,50 L60,65 L40,65 Z" fill="#1a5276" /> <!-- Корсет легкий -->
-                        <circle cx="50" cy="32" r="13" fill="url(#skin)" />
-                        <!-- Детальное лицо -->
-                        <ellipse cx="45" cy="32" rx="2" ry="3.5" fill="#2c3e50" /> 
-                        <ellipse cx="55" cy="32" rx="2" ry="3.5" fill="#2c3e50" />
-                        <circle cx="45.5" cy="31" r="1" fill="#fff" /> <circle cx="55.5" cy="31" r="1" fill="#fff" />
-                        <ellipse cx="40" cy="37" rx="3" ry="1.5" fill="#ff9999" /> 
-                        <ellipse cx="60" cy="37" rx="3" ry="1.5" fill="#ff9999" />
-                        <!-- Прическа с косой -->
-                        <path d="M37,30 Q45,15 50,18 Q55,15 63,30 Q68,50 72,60 Q68,60 63,45 Q50,20 37,30 Z" fill="#d35400" />
-                    </g>
-
-                    <!-- T2: Путешественница (Детализированный плащ) -->
-                    <g class="svg-t2">
-                        <path d="M35,50 L65,50 L70,85 L30,85 Z" fill="#27ae60" />
-                        <!-- Складки плаща -->
-                        <path d="M25,50 L75,50 L70,75 L30,75 Z" fill="#8e44ad" />
-                        <path d="M30,50 L35,75 M70,50 L65,75 M50,50 L50,75" stroke="#732d91" stroke-width="2" fill="none" />
-                        <rect x="42" y="60" width="16" height="4" fill="#2c3e50" /> <rect x="48" y="59" width="4" height="6" fill="url(#gold)" />
-                        <circle cx="50" cy="32" r="13" fill="url(#skin)" />
-                        <ellipse cx="45" cy="32" rx="2" ry="3.5" fill="#2c3e50" /> <ellipse cx="55" cy="32" rx="2" ry="3.5" fill="#2c3e50" />
-                        <!-- Пышные волосы -->
-                        <path d="M30,35 Q50,5 70,35 Q75,55 78,70 Q60,50 50,45 Q40,50 22,70 Q25,55 30,35 Z" fill="#f39c12" />
-                    </g>
-
-                    <!-- T3: Боевая Принцесса (Тиара и Броня) -->
-                    <g class="svg-t3">
-                        <path d="M32,50 L68,50 L80,90 L20,90 Z" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="2" /> <!-- Юбка с объемом -->
-                        <path d="M30,90 Q50,80 70,90" stroke="#bdc3c7" stroke-width="2" fill="none"/>
-                        <!-- Золотой корсет с градиентом -->
-                        <path d="M38,50 Q50,70 62,50 Z" fill="url(#gold)" stroke="#d35400" stroke-width="1.5" />
-                        <path d="M42,50 Q50,65 58,50 Z" fill="#fff6a3" />
-                        
-                        <circle cx="50" cy="32" r="13" fill="url(#skin)" />
-                        <ellipse cx="45" cy="32" rx="2" ry="4" fill="#2c3e50" /> <ellipse cx="55" cy="32" rx="2" ry="4" fill="#2c3e50" />
-                        <!-- Прическа Принцессы -->
-                        <path d="M25,35 Q50,0 75,35 Q85,65 90,85 Q50,60 10,85 Q15,65 25,35 Z" fill="#9b59b6" />
-                        <!-- Изящная Тиара -->
-                        <path d="M35,22 L50,10 L65,22 L50,26 Z" fill="url(#gold)" stroke="#d35400" stroke-width="1.5" />
-                        <circle cx="50" cy="20" r="3" fill="#00e5ff" filter="drop-shadow(0 0 3px #00e5ff)"/>
-                        <!-- Волшебный Жезл-Гантель -->
-                        <rect x="20" y="30" width="4" height="60" fill="url(#gold)" />
-                        <circle cx="22" cy="30" r="8" fill="#00e5ff" filter="drop-shadow(0 0 8px #00e5ff)"/>
-                        <circle cx="22" cy="90" r="8" fill="#00e5ff" filter="drop-shadow(0 0 8px #00e5ff)"/>
-                    </g>
-
-                    <!-- T4: Валькирия (Перья, Золото, Энергия) -->
-                    <g class="svg-t4">
-                        <!-- Детализированные Крылья -->
-                        <path d="M40,45 Q10,15 0,45 Q15,65 35,55 Z" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="1.5" />
-                        <path d="M35,55 Q15,40 5,60 Q20,75 35,65 Z" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="1.5" />
-                        <path d="M60,45 Q90,15 100,45 Q85,65 65,55 Z" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="1.5" />
-                        <path d="M65,55 Q85,40 95,60 Q80,75 65,65 Z" fill="#ecf0f1" stroke="#bdc3c7" stroke-width="1.5" />
-                        
-                        <!-- Броня Валькирии -->
-                        <path d="M25,50 Q50,35 75,50 L80,90 Q50,100 20,90 Z" fill="url(#gold)" stroke="#d35400" stroke-width="2" />
-                        <polygon points="50,60 45,75 55,75" fill="#00e5ff" filter="drop-shadow(0 0 5px #00e5ff)"/>
-                        
-                        <circle cx="50" cy="32" r="13" fill="url(#skin)" />
-                        <ellipse cx="45" cy="32" rx="2" ry="4" fill="#00e5ff" filter="drop-shadow(0 0 4px #00e5ff)"/> 
-                        <ellipse cx="55" cy="32" rx="2" ry="4" fill="#00e5ff" filter="drop-shadow(0 0 4px #00e5ff)"/>
-                        
-                        <!-- Пылающие волосы -->
-                        <path d="M20,35 Q50,-10 80,35 Q95,70 100,95 Q50,70 0,95 Q5,70 20,35 Z" fill="#f1c40f" opacity="0.9" filter="drop-shadow(0 0 10px #f1c40f)"/>
-                        <!-- Крылатая Корона -->
-                        <path d="M30,22 L50,8 L70,22 Q50,35 30,22 Z" fill="url(#steel)" stroke="#00e5ff" stroke-width="2" />
-                        <path d="M30,22 Q20,10 15,20 Z" fill="url(#steel)" /> <path d="M70,22 Q80,10 85,20 Z" fill="url(#steel)" />
-                        
-                        <!-- Эпик Посох Света -->
-                        <rect x="85" y="10" width="6" height="80" fill="url(#gold)" />
-                        <polygon points="75,10 88,-5 101,10 88,25" fill="#00e5ff" filter="drop-shadow(0 0 12px #00e5ff)"/>
-                        <polygon points="75,90 88,75 101,90 88,105" fill="#00e5ff" filter="drop-shadow(0 0 12px #00e5ff)"/>
-                    </g>
-                </g>
-
-                <!-- МЕРТВЫЙ СТРИК -->
-                <g class="svg-dead">
-                    <rect x="42" y="50" width="16" height="30" fill="#111" />
-                    <!-- Ребра -->
-                    <path d="M38,60 L62,60 M40,65 L60,65 M42,70 L58,70" stroke="#ecf0f1" stroke-width="3" fill="none" />
-                    <circle cx="50" cy="30" r="15" fill="#bdc3c7" />
-                    <ellipse cx="43" cy="32" rx="4" ry="6" fill="#000" /> <ellipse cx="57" cy="32" rx="4" ry="6" fill="#000" />
-                    <path d="M45,42 L55,42 M47,40 L47,45 M50,40 L50,45 M53,40 L53,45" stroke="#000" stroke-width="1.5" />
-                </g>
-            </svg>
+            <!-- ВНЕШНЯЯ КАРТИНКА АВАТАРА С ЖЕСТКОЙ МАРШРУТИЗАЦИЕЙ -->
+            <img id="avatar-image" class="rpg-avatar-img" src="" alt="Avatar" onerror="this.onerror=null;this.src='https://placehold.co/220x220/1a1a24/ff0055?text=IMAGE+MISSING';">
             <div class="hologram-base"></div>
         </div>
         
@@ -378,6 +198,28 @@
 </div>
 
 <script>
+    // =======================================================================
+    // БРОНЕБОЙНЫЕ ОТНОСИТЕЛЬНЫЕ ПУТИ
+    // =======================================================================
+    const avatarDB = {
+        male: {
+            t1: "./Man1.png",
+            t2: "./Man2.png",
+            t3: "./Man3.png",
+            t4: "./Man4.png",
+            dead: "./Man5.png"
+        },
+        female: {
+            t1: "https://placehold.co/400x400/1a1a24/ff66b2?text=FEMALE+T1+NOVICE",
+            t2: "https://placehold.co/400x400/1a1a24/ff66b2?text=FEMALE+T2+ROGUE",
+            t3: "https://placehold.co/400x400/1a1a24/00ffaa?text=FEMALE+T3+PRINCESS",
+            t4: "https://placehold.co/400x400/1a1a24/ffd700?text=FEMALE+T4+VALKYRIE",
+            dead: "https://placehold.co/400x400/1a1a24/ff0055?text=DEAD+STREAK"
+        },
+        dead: "https://placehold.co/400x400/1a1a24/ff0055?text=DEAD+STREAK"
+    };
+    // =======================================================================
+
     // --- БАЗА ДАННЫХ И СОСТОЯНИЕ ---
     let appData = {
         profile: { gender: null, level: 1, xp: 0, nextXp: 100, lastWorkoutTime: 0 },
@@ -416,7 +258,7 @@
     }
 
     function init() {
-        const saved = localStorage.getItem('forgeSaveV6');
+        const saved = localStorage.getItem('forgeSaveV7');
         if (saved) {
             appData = JSON.parse(saved);
             if(appData.profile.gender) { 
@@ -434,14 +276,11 @@
         saveData(); 
         
         if ("Notification" in window) {
-            if (window.location.protocol === 'file:') {
-                alert("ВНИМАНИЕ: Ты открыл файл локально (file://). Chrome может заблокировать Push-уведомления. Для их работы залей файл на бесплатный хостинг (например, Vercel или GitHub Pages).");
-            }
             Notification.requestPermission().then(permission => {
                 if (permission === "granted") {
                     appData.gamification.pushEnabled = true;
                     saveData();
-                    new Notification("Dopamine Forge", { body: "Связь с ЦНС установлена." });
+                    new Notification("Dopamine Forge", { body: "Связь с ЦНС установлена. Готовься к адаптации." });
                 }
             });
         }
@@ -463,11 +302,13 @@
 
     function updateAvatar() {
         const wrapper = document.getElementById('avatar-wrapper');
+        const imgElement = document.getElementById('avatar-image');
         const speech = document.getElementById('avatar-speech');
+        
         const lvl = appData.profile.level;
         const gender = appData.profile.gender;
         
-        wrapper.className = `avatar-container gender-${gender}`; 
+        wrapper.className = 'avatar-container'; 
         
         const now = new Date().getTime();
         let isDead = false;
@@ -478,23 +319,28 @@
 
         if (isDead) {
             wrapper.classList.add('tier-dead');
-            speech.innerHTML = "<span style='color:var(--danger)'>Стрик потерян. Броня сгнила. Верни нас к жизни!</span>";
+            imgElement.src = avatarDB[gender].dead || avatarDB.dead; 
+            speech.innerHTML = "<span style='color:var(--danger)'>Стрик потерян. Визуальный якорь разрушен. Восстановись!</span>";
             appData.gamification.streak = 0;
             return;
         }
 
         if (lvl < 5) {
             wrapper.classList.add('tier-1');
+            imgElement.src = avatarDB[gender].t1;
             speech.innerText = gender === 'male' ? "Форма слабая. Нужен стресс. Крути рулетку." : "Пора разбудить эндорфины. Начнем с легкого.";
         } else if (lvl < 10) {
             wrapper.classList.add('tier-2');
-            speech.innerText = gender === 'male' ? "Мышцы уплотняются. Форма приобретает объем." : "Тонус в норме. Твоя мантия путешественницы готова.";
+            imgElement.src = avatarDB[gender].t2;
+            speech.innerText = gender === 'male' ? "Мышцы уплотняются. Форма приобретает объем." : "Тонус в норме. Твоя мантия готова.";
         } else if (lvl < 20) {
             wrapper.classList.add('tier-3');
-            speech.innerText = gender === 'male' ? "Броня крестоносца. Твоя дисциплина становится железом." : "Тиара принцессы-воина. Ты чувствуешь эту грацию?";
+            imgElement.src = avatarDB[gender].t3;
+            speech.innerText = gender === 'male' ? "Броня крестоносца. Твоя дисциплина становится железом." : "Тиара принцессы. Ты чувствуешь эту грацию?";
         } else {
             wrapper.classList.add('tier-4');
-            speech.innerText = gender === 'male' ? "Эпическая аура Паладина. Ты машина." : "Крылья Валькирии. Абсолютная био-доминация.";
+            imgElement.src = avatarDB[gender].t4;
+            speech.innerText = gender === 'male' ? "Эпическая аура. Ты машина." : "Крылья Валькирии. Абсолютная доминация.";
         }
     }
 
@@ -623,7 +469,7 @@
             appData.profile.level += 1;
             appData.profile.xp -= appData.profile.nextXp;
             appData.profile.nextXp = Math.floor(appData.profile.nextXp * 1.3);
-            alert(`🔥 ЭВОЛЮЦИЯ! НОВЫЙ УРОВЕНЬ: ${appData.profile.level}.`);
+            alert(`🔥 ЭВОЛЮЦИЯ! НОВЫЙ УРОВЕНЬ: ${appData.profile.level}. Аватар обновлен.`);
         }
 
         saveData(); updateDashboard(); showScreen('screen-dashboard');
@@ -634,7 +480,7 @@
         const debugText = document.getElementById('push-debug');
         
         if (window.location.protocol === 'file:') {
-            debugText.innerText = "ОШИБКА: Протокол file:// блокирует пуши в Chrome. Залей файл на сервер или хостинг.";
+            debugText.innerText = "ОШИБКА: Протокол file:// блокирует пуши. Загрузи файл на GitHub Pages по инструкции выше.";
             return;
         }
 
@@ -645,16 +491,14 @@
                 body: "Тестовый выброс кортизола. Твои мышцы ждут загрузки.",
                 icon: "⚡"
             });
-            debugText.innerText = "Пуш отправлен! Если не видишь - проверь 'Фокусировку внимания' в Windows 10.";
+            debugText.innerText = "Пуш отправлен! Если не видишь - проверь 'Фокусировку внимания' в Windows/Телефоне.";
         } else if (Notification.permission === "denied") {
-            debugText.innerText = "ОШИБКА: Уведомления жестко заблокированы в настройках сайта в Chrome.";
+            debugText.innerText = "ОШИБКА: Уведомления жестко заблокированы браузером. Разреши их вручную.";
         } else {
             Notification.requestPermission().then(permission => {
                 if (permission === "granted") {
-                    new Notification("Dopamine Forge", { body: "Разрешение получено. Связь установлена." });
+                    new Notification("Dopamine Forge", { body: "Разрешение получено." });
                     debugText.innerText = "Разрешение получено.";
-                } else {
-                    debugText.innerText = "Ты отклонил запрос.";
                 }
             });
         }
@@ -676,11 +520,11 @@
     // --- DEV TOOLS ---
     function cheatLevel(mod) { appData.profile.level = Math.max(1, appData.profile.level + mod); saveData(); updateDashboard(); }
     function resetDaily() { appData.gamification.dailyRoll = null; saveData(); alert("Бросок рулетки на сегодня сброшен."); }
-    function resetData() { if(confirm("Удалить ДНК и прогресс?")) { localStorage.removeItem('forgeSaveV6'); location.reload(); } }
-    function saveData() { localStorage.setItem('forgeSaveV6', JSON.stringify(appData)); }
+    function resetData() { if(confirm("Удалить ДНК и прогресс?")) { localStorage.removeItem('forgeSaveV7'); location.reload(); } }
+    function saveData() { localStorage.setItem('forgeSaveV7', JSON.stringify(appData)); }
     function exportData() {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData));
-        const a = document.createElement('a'); a.href = dataStr; a.download = "forge_backup_v6.json";
+        const a = document.createElement('a'); a.href = dataStr; a.download = "forge_backup_v7.json";
         document.body.appendChild(a); a.click(); a.remove();
     }
     function importData() {
@@ -696,7 +540,7 @@
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        document.getElementById('push-debug').innerText = ""; // Сброс текста дебага
+        document.getElementById('push-debug').innerText = ""; 
     }
 
     window.onload = init;
